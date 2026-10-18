@@ -1,25 +1,57 @@
-# 🌸 Smart Pollen & Air Quality Monitoring System
+# 🌸 Smart Pollen Allergy Risk & Air Quality Monitoring System
 
 [![ESP32](https://img.shields.io/badge/Platform-ESP32-red.svg)](https://www.espressif.com/)
 [![Language](https://img.shields.io/badge/Language-C%2B%2B%20%2F%20Arduino-00599C.svg)]()
 [![IoT Platform](https://img.shields.io/badge/IoT-Blynk-24B47E.svg)](https://blynk.io/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Institution](https://img.shields.io/badge/CIT-Autonomous-yellow.svg)](https://www.citchennai.edu.in/)
 
-An IoT-enabled environmental telemetry station built on the **ESP32** microcontroller. Fuses atmospheric conditions (temperature & relative humidity) with air pollution metrics (MQ-135 gas sensor) to predict high pollen concentration risks and hazardous ambient air conditions in real time. 
+> **Academic Project** | Department of Electronics and Communication (ACT), **Chennai Institute of Technology (Autonomous)**  
+> **Authors:** Mrityunjay G (24AC0034) & Monish S (24AC0033)  
+> **Project Guide:** Dr. Anand K  
 
-Telemetry is visualized locally via an **I2C 16x2 LCD** and streamed wirelessly to the **Blynk IoT Cloud** for mobile dashboard tracking and automated push notification alerts.
+An IoT-based proactive environmental monitoring system designed to protect individuals with respiratory sensitivities and asthma. Built on the **ESP32** microcontroller, the system fuses ambient climate telemetry (temperature & relative humidity) with air pollution metrics (**MQ-135** gas sensor) to detect dangerous atmospheric conditions in real time. 
+
+Unlike passive monitors that simply log data, this system features a **proactive alert engine** that automatically triggers instant **email warnings and mobile push notifications** via the **Blynk IoT platform** when harmful gas levels breach safety thresholds.
 
 ---
 
-## 📌 Features
+## 📸 Hardware Prototype & Verification Proofs
 
-- **Real-Time Atmospheric Telemetry:** Continuous measurement of ambient temperature and relative humidity.
-- **Air Quality & Gas Detection:** MQ-135 sensor evaluates hazardous gases (CO₂, NH₃, smoke, and volatile organic compounds).
-- **Dual Output Interface:**
-  - **Local Display:** 16x2 I2C LCD alternating between thermal metrics and air quality status (*"Fresh Air"* vs. *"Bad Air"*).
-  - **Cloud Telemetry:** Wireless synchronization with Blynk IoT mobile app every 30 seconds.
-- **Automated Hazard Alerting:** Dispatches instant `pollution_alert` notifications to mobile devices when pollution levels cross safety thresholds (> 400).
-- **Non-Blocking Architecture:** Driven by `BlynkTimer` event scheduler to prevent loop locking and ensure stable Wi-Fi connectivity.
+<div align="center">
+  <table border="0">
+    <tr>
+      <td align="center" width="50%">
+        <img src="assets/circuit_connection.png" alt="Hardware Circuit Setup" width="100%" />
+        <br />
+        <b>Figure 1: Physical Circuit Assembly (ESP32, LCD 16x2, MQ-135, DHT11)</b>
+      </td>
+      <td align="center" width="50%">
+        <img src="assets/blynk_dashboard.png" alt="Blynk IoT Dashboard" width="100%" />
+        <br />
+        <b>Figure 2: Real-Time Blynk Dashboard Telemetry (V0, V1, V2)</b>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" colspan="2">
+        <img src="assets/email_alert_proof.png" alt="Blynk Automated Email Alert" width="60%" />
+        <br />
+        <b>Figure 3: Instant Automated Email Alert ("pollution_alert - Bad Air")</b>
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## 📌 Key Innovations & Features
+
+- **Proactive vs. Passive Alerting:** Moves beyond static gauges by dispatching instant automated email warnings (`robot@blynk.cloud`) and mobile notifications when air quality degrades.
+- **Dual Visual Interface:**
+  - **Local Display:** 16x2 I2C LCD screen cycling between thermal metrics and real-time status (*"Fresh Air"* vs. *"Bad Air"*).
+  - **Cloud Monitoring:** Live cloud streaming with radial gauges on the Blynk mobile application.
+- **Respiratory Health Focus:** Specifically targeted for asthma sufferers and individuals sensitive to pollen and airborne particulate matter in study rooms and smart homes.
+- **Low-Cost & Portable:** Replaces expensive industrial-grade monitoring stations with an accessible ESP32 architecture powered by standard USB / Li-Po batteries.
 
 ---
 
@@ -27,11 +59,29 @@ Telemetry is visualized locally via an **I2C 16x2 LCD** and streamed wirelessly 
 
 ```mermaid
 graph TD
-    A[MQ-135 Gas Sensor] -->|Analog Signal - GPIO 32| ESP[ESP32 Microcontroller]
-    B[DHT11 Sensor] -->|Digital Signal - GPIO 2| ESP
-    
-    ESP -->|I2C SDA:21, SCL:22| LCD[16x2 I2C LCD Display]
-    ESP -->|Wi-Fi 2.4 GHz| Cloud[Blynk IoT Cloud]
-    
-    Cloud --> App[Blynk Mobile App Dashboard]
-    Cloud --> Alert[Push Notification Event]
+    subgraph Sensing Layer
+      S1[MQ-135 Gas Sensor]
+      S2[DHT11 Climate Sensor]
+    end
+
+    subgraph Processing Unit
+      ESP[ESP32 Microcontroller]
+      PWR[Power Supply / USB / Li-Po] --> ESP
+    end
+
+    subgraph Local Interface
+      LCD[16x2 I2C LCD Display]
+    end
+
+    subgraph Cloud & Alert Layer
+      Blynk[Blynk IoT Cloud Server]
+      App[Blynk Mobile App Gauges]
+      Email[Automated Email Alert Engine]
+    end
+
+    S1 -->|Analog Read - GPIO 32| ESP
+    S2 -->|Digital Read - GPIO 2| ESP
+    ESP -->|I2C SDA:21, SCL:22| LCD
+    ESP -->|Wi-Fi 2.4 GHz| Blynk
+    Blynk --> App
+    Blynk -->|Threshold > 400 PPM| Email
