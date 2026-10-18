@@ -4,11 +4,8 @@
 [![Language](https://img.shields.io/badge/Language-C%2B%2B%20%2F%20Arduino-00599C.svg)]()
 [![IoT Platform](https://img.shields.io/badge/IoT-Blynk-24B47E.svg)](https://blynk.io/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Institution](https://img.shields.io/badge/CIT-Autonomous-yellow.svg)](https://www.citchennai.edu.in/)
 
-> **Academic Project** | Department of Electronics and Communication (ACT), **Chennai Institute of Technology (Autonomous)**  
-> **Authors:** Mrityunjay G (24AC0034) & Monish S (24AC0033)  
-> **Project Guide:** Dr. Anand K  
+> **Developed by:** Mrityun Jay G & Monish S  
 
 An IoT-based proactive environmental monitoring system designed to protect individuals with respiratory sensitivities and asthma. Built on the **ESP32** microcontroller, the system fuses ambient climate telemetry (temperature & relative humidity) with air pollution metrics (**MQ-135** gas sensor) to detect dangerous atmospheric conditions in real time. 
 
@@ -22,19 +19,19 @@ Unlike passive monitors that simply log data, this system features a **proactive
   <table border="0">
     <tr>
       <td align="center" width="50%">
-        <img src="assets/circuit_connection.png" alt="Hardware Circuit Setup" width="100%" />
+        <img src="circuit_connection.png" alt="Hardware Circuit Setup" width="100%" />
         <br />
         <b>Figure 1: Physical Circuit Assembly (ESP32, LCD 16x2, MQ-135, DHT11)</b>
       </td>
       <td align="center" width="50%">
-        <img src="assets/blynk_dashboard.png" alt="Blynk IoT Dashboard" width="100%" />
+        <img src="blynk_dashboard.png" alt="Blynk IoT Dashboard" width="100%" />
         <br />
         <b>Figure 2: Real-Time Blynk Dashboard Telemetry (V0, V1, V2)</b>
       </td>
     </tr>
     <tr>
       <td align="center" colspan="2">
-        <img src="assets/email_alert_proof.png" alt="Blynk Automated Email Alert" width="60%" />
+        <img src="email_alert_proof.png" alt="Blynk Automated Email Alert" width="60%" />
         <br />
         <b>Figure 3: Instant Automated Email Alert ("pollution_alert - Bad Air")</b>
       </td>
@@ -56,6 +53,14 @@ Unlike passive monitors that simply log data, this system features a **proactive
 ---
 
 ## 🏗️ System Architecture
+
+<div align="center">
+  <img src="system_block_diagram.png" alt="System Block Diagram" width="85%" />
+  <br />
+  <b>Figure 4: Hardware and Cloud Interconnect Architecture</b>
+</div>
+
+<br />
 
 ```mermaid
 graph TD
